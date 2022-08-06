@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.Time;
+
 @RestController
 @RequestMapping("/send")
 public class MainController {
@@ -20,6 +22,11 @@ public class MainController {
     @GetMapping("/queue2/{message}")
     public void sendMessagetoQueue2(@PathVariable String message) {
         service.sendToQueue2(message);
+    }
+
+    @GetMapping("/queue/{message}/{time}")
+    public void sendMessagetoQueue3(@PathVariable String message, @PathVariable Integer time) {
+        service.sendToQueue3(message, time);
     }
 
     public MainController(SendService service) {

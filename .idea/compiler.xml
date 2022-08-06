@@ -9,11 +9,13 @@
         <outputRelativeToContentRoot value="true" />
         <module name="HelloRabbitMQ" />
         <module name="rabbitmq-spring-boot" />
+        <module name="rabbitmq" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="rabbitmq" options="-parameters" />
       <module name="rabbitmq-spring-boot" options="-parameters" />
     </option>
   </component>

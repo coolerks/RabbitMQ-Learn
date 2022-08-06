@@ -69,4 +69,21 @@ public class QueueConfig {
                 .to(exchange)
                 .with("dead");
     }
+
+    @Bean
+    public Queue generalQueue() {
+        return QueueBuilder
+                .nonDurable("普通常规队列")
+                .deadLetterRoutingKey("dead")
+                .deadLetterExchange(DEAD_EXCHANGE)
+                .build();
+    }
+
+    @Bean
+    public Binding generalQueueBinding(@Qualifier("generalQueue") Queue queue, @Qualifier("normalExchange") DirectExchange exchange) {
+        return BindingBuilder
+                .bind(queue)
+                .to(exchange)
+                .with("key5");
+    }
 }
