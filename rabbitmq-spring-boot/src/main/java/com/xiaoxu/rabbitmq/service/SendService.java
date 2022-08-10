@@ -1,5 +1,6 @@
 package com.xiaoxu.rabbitmq.service;
 
+import com.xiaoxu.rabbitmq.config.DelayedConfig;
 import com.xiaoxu.rabbitmq.config.QueueConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -31,6 +32,14 @@ public class SendService {
         log.info("发送到队列3的消息：{}，现在的时间：{}，延迟：{}", message, new Date().toString(), time);
         rabbitTemplate.convertAndSend(QueueConfig.NORMAL_EXCHANGE, "key5", message, msg -> {
             msg.getMessageProperties().setExpiration(String.valueOf(time));
+            return msg;
+        });
+    }
+
+    public void sendToDelayedQueue(String message, Integer time) {
+        log.info("消息内容为：{}，发到延迟队列的延迟为：{}", message, time);
+        rabbitTemplate.convertAndSend(DelayedConfig.DELAYED_EXCHANGE, DelayedConfig.ROUTING_KEY, message, msg -> {
+            msg.getMessageProperties().setDelay(time);
             return msg;
         });
     }

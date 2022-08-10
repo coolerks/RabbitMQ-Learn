@@ -29,6 +29,11 @@ public class MainController {
         service.sendToQueue3(message, time);
     }
 
+    @GetMapping("/delayed/{message}/{time}")
+    public void sendMessagetoDelayedQueue(@PathVariable String message, @PathVariable Integer time) {
+        service.sendToDelayedQueue(message, time);
+    }
+
     public MainController(SendService service) {
         this.service = service;
     }
