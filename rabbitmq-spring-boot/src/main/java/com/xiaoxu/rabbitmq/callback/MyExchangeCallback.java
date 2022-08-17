@@ -24,6 +24,6 @@ public class MyExchangeCallback implements RabbitTemplate.ConfirmCallback {
 
     public MyExchangeCallback(RabbitTemplate template) {
         this.template = template;
-        template.setConfirmCallback(this);
+//        template.setConfirmCallback(this);
     }
 }

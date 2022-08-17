@@ -1,5 +1,6 @@
 package com.xiaoxu.rabbitmq.service;
 
+import com.rabbitmq.client.AMQP;
 import com.xiaoxu.rabbitmq.config.DelayedConfig;
 import com.xiaoxu.rabbitmq.config.QueueConfig;
 import lombok.extern.slf4j.Slf4j;
@@ -48,11 +49,14 @@ public class SendService {
         });
     }
 
-    public void sendToOne(String message) {
+    public void sendToOne(String message, int priority) {
         log.info("生产者发到交换机的消息：{}", message);
         CorrelationData correlationData = new CorrelationData(UUID.randomUUID().toString());
         correlationData.setReturned(new ReturnedMessage(new Message(message.getBytes()), 404, "",
-                "一个交换机", "一个key"));
-        rabbitTemplate.convertAndSend("一个交换机", "一个key", message, correlationData);
+                "一个交换机", "priority"));
+        rabbitTemplate.convertAndSend("一个交换机", "priority", message, msg -> {
+            msg.getMessageProperties().setPriority(priority);
+            return msg;
+        }, correlationData);
     }
 }

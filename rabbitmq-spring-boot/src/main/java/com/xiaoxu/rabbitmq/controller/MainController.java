@@ -34,9 +34,9 @@ public class MainController {
         service.sendToDelayedQueue(message, time);
     }
 
-    @GetMapping("/one/{message}")
-    public void sendToOne(@PathVariable String message) {
-        service.sendToOne(message);
+    @GetMapping("/one/{message}/{priority}")
+    public void sendToOne(@PathVariable String message, @PathVariable Integer priority) {
+        service.sendToOne(message, priority);
     }
 
     public MainController(SendService service) {

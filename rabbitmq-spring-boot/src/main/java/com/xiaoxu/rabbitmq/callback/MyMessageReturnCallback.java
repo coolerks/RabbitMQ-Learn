@@ -13,7 +13,7 @@ public class MyMessageReturnCallback implements RabbitTemplate.ReturnsCallback {
 
     public MyMessageReturnCallback(RabbitTemplate template) {
         this.template = template;
-        template.setReturnsCallback(this);
+//        template.setReturnsCallback(this);
     }
 
     @Override

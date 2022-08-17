@@ -108,4 +108,21 @@ public class QueueConfig {
                 .to(exchange)
                 .with("一个key");
     }
+
+    @Bean
+    public Queue priority() {
+        return QueueBuilder
+                .nonDurable("priority")
+                .maxPriority(10)
+                .lazy()
+                .build();
+    }
+
+    @Bean
+    public Binding priorityBinding(@Qualifier("priority") Queue priority, @Qualifier("oneExchange") DirectExchange exchange) {
+        return BindingBuilder
+                .bind(priority)
+                .to(exchange)
+                .with("priority");
+    }
 }

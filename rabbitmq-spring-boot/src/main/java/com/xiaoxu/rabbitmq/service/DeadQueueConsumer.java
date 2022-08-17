@@ -24,8 +24,8 @@ public class DeadQueueConsumer {
         log.info("延迟队列接收到消息，消息的内容为：{}", new String(message.getBody()));
     }
 
-    @RabbitListener(queues = "一个队列")
-    public void receiveOneQueue(Message message) {
+    @RabbitListener(queues = {"一个队列", "priority"})
+    public void receiveOneQueue(Message message) throws InterruptedException {
         log.info("一个队列接收到消息，消息的内容为：{}", new String(message.getBody()));
     }
 }
