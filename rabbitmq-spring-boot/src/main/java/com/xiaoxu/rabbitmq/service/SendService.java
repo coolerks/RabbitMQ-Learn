@@ -3,11 +3,15 @@ package com.xiaoxu.rabbitmq.service;
 import com.xiaoxu.rabbitmq.config.DelayedConfig;
 import com.xiaoxu.rabbitmq.config.QueueConfig;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.ReturnedMessage;
+import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
 import java.io.Console;
 import java.util.Date;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -42,5 +46,13 @@ public class SendService {
             msg.getMessageProperties().setDelay(time);
             return msg;
         });
+    }
+
+    public void sendToOne(String message) {
+        log.info("生产者发到交换机的消息：{}", message);
+        CorrelationData correlationData = new CorrelationData(UUID.randomUUID().toString());
+        correlationData.setReturned(new ReturnedMessage(new Message(message.getBytes()), 404, "",
+                "一个交换机", "一个key"));
+        rabbitTemplate.convertAndSend("一个交换机", "一个key", message, correlationData);
     }
 }

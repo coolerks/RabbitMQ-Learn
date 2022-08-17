@@ -1,6 +1,7 @@
 package com.xiaoxu.rabbitmq.config;
 
 import org.springframework.amqp.core.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -85,5 +86,26 @@ public class QueueConfig {
                 .bind(queue)
                 .to(exchange)
                 .with("key5");
+    }
+
+    @Bean
+    public DirectExchange oneExchange() {
+        return new DirectExchange("一个交换机", false, false);
+    }
+
+    @Bean
+    public Queue oneQueue() {
+        return QueueBuilder
+                .nonDurable("一个队列")
+                .build();
+
+    }
+
+    @Bean
+    public Binding oneQueueBinding(@Qualifier("oneQueue") Queue queue, @Qualifier("oneExchange") DirectExchange exchange) {
+        return BindingBuilder
+                .bind(queue)
+                .to(exchange)
+                .with("一个key");
     }
 }

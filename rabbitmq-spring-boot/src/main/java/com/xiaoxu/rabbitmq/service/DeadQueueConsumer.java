@@ -23,4 +23,9 @@ public class DeadQueueConsumer {
     public void receiveDelayedQueue(Message message) {
         log.info("延迟队列接收到消息，消息的内容为：{}", new String(message.getBody()));
     }
+
+    @RabbitListener(queues = "一个队列")
+    public void receiveOneQueue(Message message) {
+        log.info("一个队列接收到消息，消息的内容为：{}", new String(message.getBody()));
+    }
 }
